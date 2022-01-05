@@ -82,7 +82,7 @@ public class CourseRepository implements ICrudRepository<Course> {
 
         List<Integer> updatedStudents = obj.getStudentsEnrolled();
 
-        String queryEnrollment = String.format("SELECT student_id FROM school.studentsenrolledtocourse WHERE course_id= " +obj.getCourseId());
+        String queryEnrollment = String.format("SELECT student_id FROM school.studentsenrolledtocourse WHERE course_id=%2d", obj.getCourseId());
         Statement statement1 = connection.createStatement();
         ResultSet enrolledStudents = statement1.executeQuery(queryEnrollment);
 
@@ -90,7 +90,7 @@ public class CourseRepository implements ICrudRepository<Course> {
             int studentId = enrolledStudents.getInt("student_id");
             if(!updatedStudents.contains(studentId)){
                 Statement statement2 = connection.createStatement();
-                statement2.execute(String.format("DELETE FROM school.studentsenrolledtocourse WHERE student_id= " +studentId + "AND course_id= " + obj.getCourseId()));
+                statement2.execute(String.format("DELETE FROM school.studentsenrolledtocourse WHERE student_id=%2d AND course_id=%2d", studentId, obj.getCourseId()));
                 statement2.close();
 
 
@@ -100,7 +100,7 @@ public class CourseRepository implements ICrudRepository<Course> {
         }
         if(!updatedStudents.isEmpty()){
             Statement statement3 = connection.createStatement();
-            statement3.execute(String.format("INSERT INTO school.studentsenrolledtocourse(student_id, course_id) VALUES" + updatedStudents.get(0), obj.getCourseId()));
+            statement3.execute(String.format("INSERT INTO school.studentsenrolledtocourse(student_id, course_id) VALUES(%2d, %2d)", updatedStudents.get(0), obj.getCourseId()));
             statement3.close();
         }
 

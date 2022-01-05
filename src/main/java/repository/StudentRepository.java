@@ -77,7 +77,7 @@ public class StudentRepository implements ICrudRepository<Student> {
                     "SET Name =" +obj.getFirstName()+ ",LastName= " +obj.getLastName()+
                     "WHERE Student_id = " + obj.getStudentId();
         Statement statement = connection.createStatement();
-        statement.executeQuery(query);
+        statement.executeUpdate(query);
 
         List<Integer> updatedEnrolledCourses = obj.getEnrolledCourses();
 

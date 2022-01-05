@@ -30,6 +30,17 @@ public class RegistrationSystem {
     }
 
 
+    /**
+     * The method register a student to a course.
+     *
+     * @param studentId the student id
+     * @param courseId  the course id
+     * @throws ExceptionLimitReached  the exception limit reached
+     * @throws ExceptionMaximCredits  the exception maxim credits
+     * @throws SQLException           the sql exception
+     * @throws ExceptionNotFound      the exception not found
+     * @throws AlreadyExistsException the already exists exception
+     */
     public void register(int studentId, int courseId) throws ExceptionLimitReached, ExceptionMaximCredits, SQLException, ExceptionNotFound, AlreadyExistsException {
         int studentIdx = -1;
 
@@ -123,9 +134,6 @@ public class RegistrationSystem {
         for (int i = 0; i < teacherRepository.getAll().size(); i++) {
             if (teacherRepository.getAll().get(i).getTeacherId() == teacherID) {
                 teacherIndex = i;
-//           }else{
-//
-//               throw new ExceptionNotFound("The teacher does not exist!");
                 break;
             }
 
@@ -228,16 +236,6 @@ public class RegistrationSystem {
         Comparator<Course> courseComparator = Comparator.comparing(Course::getName);
         return courseList.stream().sorted(courseComparator).toList();
 
-//        courseList.sort( (Course courseList1, Course courseList2) ->
-//        {
-//
-//            if (courseList1.getName().compareTo(courseList2.getName()) == 0)
-//                return courseList1.getMaxEnrollment()-courseList1.getStudentsEnrolled().size()-courseList2.getMaxEnrollment()-courseList2.getStudentsEnrolled().size();
-//            return courseList1.getName().compareTo(courseList2.getName());
-//        } );
-//
-//
-//        return courseList;
     }
 
 
@@ -261,36 +259,13 @@ public class RegistrationSystem {
         Comparator<Student> studentComparator = Comparator.comparing(Student::getFirstName);
         return studentList.stream().sorted(studentComparator).toList();
     }
-//        studentList.sort( (Student studentsList1, Student studentsList2) ->
-//        {
-//
-//            if (studentsList1.getFirstName().compareTo(studentsList2.getFirstName()) > 0)
-//                return studentsList1.getFirstName().compareTo(studentsList2.getFirstName());
-//            return studentsList1.getLastName().compareTo(studentsList2.getLastName());
-//        } );
-//
-//
-//        return studentList;
+
 
 
     public List<Student> filterStudents() throws SQLException {
         List<Student> studentsList = studentRepository.getAll();
         return studentsList.stream().filter(student -> student.getEnrolledCoursesSize() > 0).toList();
     }
-
-//        studentsList = studentsList.stream()
-//                .filter( (Student student) ->
-//                {
-//                    try {
-//                        return totalCreditsOfaStudent(student) <20;
-//                    } catch (SQLException e) {
-//                        e.printStackTrace();
-//                    }
-//                    return false;
-//                })
-//                .collect(Collectors.toList());
-//        return studentsList;
-//    }
 
 
 }
